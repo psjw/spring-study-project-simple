@@ -5,37 +5,43 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity//order_detail
-public class OrderDetail {
+@Data
+@Entity
+@ToString(exclude = {"user"})
+public class OrderGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String status;
+    private String orderType; // 주문의 형태 일괄 / 개별 발송
 
-    private LocalDateTime arrivalDate;
-
-    private Integer Quantity;
+    private String revAddress;
+    private String revName;
+    private String paymentType; //카드 현금 결제
 
     private BigDecimal totalPrice;
 
+    private Integer totalQuantity;
+    private LocalDateTime orderAt;
+    private LocalDateTime arrivalDate;
+
+
     private LocalDateTime createdAt;
+
     private String createdBy;
+
     private LocalDateTime updatedAt;
+
     private String updatedBy;
 
-    private Long itemId;
-    private Long orderGroupId;
+    // OrderGroup N : 1 User
+    @ManyToOne
+    private User user;
 
 }
